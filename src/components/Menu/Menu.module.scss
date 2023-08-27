@@ -1,0 +1,45 @@
+$background-color-base: #fff;
+$heading-color: #000000d9;
+$success-color: #52c41a;
+
+.menuWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em 1.5em;
+  background-color: $background-color-base;
+
+  .blogLabel {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px;
+    color: $heading-color;
+  }
+
+  .loginWrap {
+    display: flex;
+    gap: 1em;
+    .userData {
+      display: flex;
+      gap: 1em;
+    }
+    .button {
+      padding: 0.5em 1.25em;
+      border: 1px solid transparent;
+      border-radius: 5px;
+      transition: all 0.5s ease-in-out;
+    }
+    .button:hover {
+      border-color: $heading-color;
+    }
+    .buttonSucess {
+      color: $success-color;
+      border-color: $success-color;
+    }
+    .buttonSucess:hover {
+      color: $background-color-base;
+      background-color: $success-color;
+      border-color: $success-color;
+    }
+  }
+}

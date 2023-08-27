@@ -1,0 +1,113 @@
+$info-color: #1890ff;
+$bg-color: #ebeef3;
+$grey: #bfbfbf;
+$grey-6: #bfbfbf;
+$grey-7: #8c8c8c;
+$grey-8: #595959;
+$highlight-color: #f5222d;
+.button {
+  box-sizing: border-box;
+  height: 41px;
+  padding: 8px 26px;
+  line-height: 24px;
+  font-size: 16px;
+  color: $info-color;
+  border: 1px solid $info-color;
+  border-radius: 4px;
+  transition: all 0.5s ease-in-out;
+}
+.button:hover {
+  color: #fff;
+  background-color: $info-color;
+}
+.highLight {
+  border-color: $highlight-color;
+  color: $highlight-color;
+}
+.highLight:hover {
+  color: #fff;
+  background-color: $highlight-color;
+}
+.submit {
+  background-color: $info-color;
+  color: #fff;
+  padding: 8px 10em;
+}
+.bgWrapper {
+  background-color: $bg-color;
+  min-height: 100vh;
+  padding: 1.5em 10%;
+  padding-bottom: 1em;
+  .mainWrapper {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 3em 2em;
+    box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+    .articleTitle {
+      font-family: "Roboto", sans-serif;
+      text-align: center;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 28px;
+    }
+    .articleForm {
+      display: flex;
+      flex-direction: column;
+      gap: 21px;
+      .inputLabel {
+        font-family: "Roboto", sans-serif;
+        .input {
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 24px;
+          margin-top: 2px;
+          display: block;
+          box-sizing: border-box;
+          width: 100%;
+          padding: 0.5em 0.75em;
+          border-radius: 4px;
+          border: 1px solid $grey;
+        }
+        .inputLarge {
+          min-height: 20rem;
+          resize: none;
+        }
+        .input:focus {
+          border: 1px solid $grey-8;
+        }
+        .input--invalid {
+          border: 1px solid $highlight-color;
+        }
+        .input--invalid:focus {
+          border: 1px solid $highlight-color;
+        }
+        .input::placeholder {
+          color: $grey-6;
+        }
+        .errorMessage {
+          color: $highlight-color;
+          font-family: "Roboto", sans-serif;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 22px;
+        }
+      }
+      .tagInputWrapper {
+        .tagInputLabel {
+          display: flex;
+          gap: 18px;
+          align-items: center;
+          .input {
+            box-sizing: border-box;
+            height: 41px;
+            min-width: 350px;
+            width: fit-content;
+          }
+        }
+      }
+    }
+  }
+}

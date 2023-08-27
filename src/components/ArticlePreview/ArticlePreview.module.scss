@@ -1,0 +1,71 @@
+$info-color: #1890ff;
+
+.card {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 1em 1.25em;
+  padding-bottom: 1.5em;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  .header {
+    display: flex;
+    justify-content: space-between;
+    div {
+      div {
+        display: flex;
+        .articleTitle {
+          color: $info-color;
+          font-size: 20px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 28px;
+          display: flex;
+          align-items: center;
+          padding-right: 12px;
+          cursor: pointer;
+        }
+        .favourites {
+          display: flex;
+          align-items: center;
+          font-size: 12px;
+        }
+        .favouritesIcon {
+          margin-right: 5px;
+          width: 16px;
+          height: 16px;
+          background: url("/src/assets/like.svg");
+          background-size: cover;
+          cursor: pointer;
+        }
+        .favouritesIcon--filled {
+          background: url("/src/assets/likeFilled.svg") center center no-repeat;
+        }
+      }
+      .tagList {
+        display: flex;
+        gap: 8px;
+        .tag {
+          padding: 2px 3px;
+          border: 1px solid #000000;
+          border-radius: 2px;
+          height: fit-content;
+          font-size: 12px;
+        }
+      }
+    }
+    .userInfo {
+      display: flex;
+      gap: 12px;
+      .userNameWrap {
+        display: flex;
+        flex-direction: column;
+        .createdAt {
+          color: rgba(0, 0, 0, 0.5);
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  .desc {
+    padding-top: 7px;
+  }
+}

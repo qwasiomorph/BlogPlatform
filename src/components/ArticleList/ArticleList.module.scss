@@ -1,0 +1,9 @@
+$bg-color: #ebeef3;
+
+.articlelistWrapper {
+  padding: 1.5em 10%;
+  background-color: $bg-color;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+}
