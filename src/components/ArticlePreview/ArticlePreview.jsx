@@ -3,6 +3,8 @@ import parseDate from "../../utils/parseDate";
 import style from "./ArticlePreview.module.scss";
 import { useState } from "react";
 
+import PropTypes from "prop-types";
+
 const ArticlePreview = ({ info, toggleFavorite }) => {
   const {
     slug,
@@ -22,9 +24,9 @@ const ArticlePreview = ({ info, toggleFavorite }) => {
     toggleFavorite(favoritedClientView, slug);
     setFavorited(!favoritedClientView);
     if (favoritedClientView) {
-      setFavoriteCount(favoritedClientView - 1);
+      setFavoriteCount(favoriteCountClientView - 1);
     } else {
-      setFavoriteCount(favoritedClientView + 1);
+      setFavoriteCount(favoriteCountClientView + 1);
     }
   };
 
@@ -71,6 +73,25 @@ const ArticlePreview = ({ info, toggleFavorite }) => {
       <p className={style.desc}>{description}</p>
     </div>
   );
+};
+
+ArticlePreview.defaultProps = {
+  info: {
+    slug: "",
+    title: "",
+    author: "",
+    description: "",
+    favoritesCount: 0,
+    tagList: [],
+    createdAt: "",
+    favorited: false,
+  },
+  toggleFavorite: () => {},
+};
+
+ArticlePreview.propTypes = {
+  info: PropTypes.object,
+  toggleFavorite: PropTypes.func,
 };
 
 export default ArticlePreview;

@@ -57,9 +57,11 @@ const blogApi = createApi({
         },
         method: "PUT",
         body: {
-          username,
-          email,
-          image,
+          user: {
+            username,
+            email,
+            image,
+          },
         },
       }),
     }),
@@ -115,6 +117,8 @@ const blogApi = createApi({
 
 export const { setToken, setUserName } = serviceSlice.actions;
 
+export const useLazyArticleListQuery =
+  blogApi.endpoints.getArticles.useLazyQuery;
 export const useArticleListQuery = blogApi.endpoints.getArticles.useQuery;
 export const useArticleQuery = blogApi.endpoints.getArticle.useQuery;
 export const useCurrentUserQuery = blogApi.endpoints.getCurrentUser.useQuery;

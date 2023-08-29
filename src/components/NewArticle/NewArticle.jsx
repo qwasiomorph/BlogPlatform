@@ -8,21 +8,9 @@ import {
   useNewArticleMutation,
 } from "../../store/store";
 
+import PropTypes from "prop-types";
+
 const NewArticle = ({ data, slug }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
   const { articleList } = routes;
 
   const isNewArticlePath = !data;
@@ -40,7 +28,6 @@ const NewArticle = ({ data, slug }) => {
     register,
     formState: { errors },
     handleSubmit,
-    setValue,
     reset,
   } = useForm();
 
@@ -57,10 +44,6 @@ const NewArticle = ({ data, slug }) => {
       sendEdited({ ...data, slug });
     }
     navigate(articleList);
-  };
-
-  const onReject = (data) => {
-    console.log(data);
   };
 
   const handleAddTag = () => {
@@ -82,10 +65,7 @@ const NewArticle = ({ data, slug }) => {
         <h4 className={style.articleTitle}>
           {isNewArticlePath ? "Create new article" : "Edit article"}
         </h4>
-        <form
-          className={style.articleForm}
-          onSubmit={handleSubmit(onSubmit, onReject)}
-        >
+        <form className={style.articleForm} onSubmit={handleSubmit(onSubmit)}>
           <label className={style.inputLabel}>
             Title
             <input
@@ -183,6 +163,16 @@ const NewArticle = ({ data, slug }) => {
       </div>
     </div>
   );
+};
+
+NewArticle.defaultProps = {
+  data: {},
+  slug: "",
+};
+
+NewArticle.propTypes = {
+  data: PropTypes.object,
+  slug: PropTypes.string,
 };
 
 export default NewArticle;

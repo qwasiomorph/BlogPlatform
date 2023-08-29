@@ -9,6 +9,8 @@ import { useEffect } from "react";
 import routes from "../../utils/routes";
 import { useDispatch } from "react-redux";
 
+import PropTypes from "prop-types";
+
 const SignUp = ({ style }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,16 +33,14 @@ const SignUp = ({ style }) => {
     await signUp(body);
     navigate(articleList);
   };
-  const onReject = (data) => {
-    console.log(data);
-  };
+
   const passwordsCompare = () => {
     const { password, passwordRepeat } = getValues();
     return password === passwordRepeat;
   };
 
   return (
-    <form className={style.card} onSubmit={handleSubmit(onSubmit, onReject)}>
+    <form className={style.card} onSubmit={handleSubmit(onSubmit)}>
       <h2 className={style.mainlabel}>Create new account</h2>
       <div className={style.inputWrap}>
         <label className={style.inputLabel}>
@@ -146,6 +146,23 @@ const SignUp = ({ style }) => {
       </div>
     </form>
   );
+};
+
+SignUp.defaultProps = {
+  style: {
+    card: {},
+    mainlabel: {},
+    inputWrap: {},
+    inputLabel: {},
+    input: {},
+    "input--invalid": {},
+    errorMessage: {},
+    submitButton: {},
+  },
+};
+
+SignUp.propTypes = {
+  style: PropTypes.object,
 };
 
 export default SignUp;

@@ -4,7 +4,7 @@ import style from "./PaginationWrap.module.scss";
 import { Pagination } from "antd";
 
 const PaginationWrap = (info) => {
-  const [searchParams, setParams] = useSearchParams({ page: 1 });
+  const [, setParams] = useSearchParams({ page: 1 });
   const handlePage = (e) => {
     setParams({ page: e });
   };

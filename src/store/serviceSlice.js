@@ -4,6 +4,7 @@ const serviceSlice = createSlice({
   name: "service",
   initialState: {
     userName: "",
+
     authToken: localStorage.getItem("authToken")
       ? localStorage.getItem("authToken")
       : "",
@@ -14,6 +15,9 @@ const serviceSlice = createSlice({
     },
     setUserName: (state, action) => {
       state.userName = action.payload;
+    },
+    setRefetchArticlesFnc: (state, action) => {
+      state.refetchArticlesFnc = action.payload;
     },
   },
 });

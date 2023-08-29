@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import routes from "../../utils/routes";
 
+import PropTypes from "prop-types";
+
 const SignIn = ({ style }) => {
   const [login, { data }] = useLoginUserMutation();
   const { articleList } = routes;
@@ -29,12 +31,9 @@ const SignIn = ({ style }) => {
     await login(body);
     navigate(articleList);
   };
-  const onReject = (data) => {
-    console.log(data);
-  };
 
   return (
-    <form className={style.card} onSubmit={handleSubmit(onSubmit, onReject)}>
+    <form className={style.card} onSubmit={handleSubmit(onSubmit)}>
       <h2 className={style.mainlabel}>Sign In</h2>
       <div className={style.inputWrap}>
         <label className={style.inputLabel}>
@@ -81,6 +80,23 @@ const SignIn = ({ style }) => {
       </div>
     </form>
   );
+};
+
+SignIn.defaultProps = {
+  style: {
+    card: {},
+    mainlabel: {},
+    inputWrap: {},
+    inputLabel: {},
+    input: {},
+    "input--invalid": {},
+    errorMessage: {},
+    submitButton: {},
+  },
+};
+
+SignIn.propTypes = {
+  style: PropTypes.object,
 };
 
 export default SignIn;

@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import routes from "../../utils/routes";
 import { useEffect } from "react";
 
+import PropTypes from "prop-types";
+
 const EditProfile = ({ style }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,6 +20,7 @@ const EditProfile = ({ style }) => {
     register,
     formState: { errors },
     handleSubmit,
+    getValues,
   } = useForm({ defaultValues: {} });
   useEffect(() => {
     if (data) {
@@ -30,11 +33,25 @@ const EditProfile = ({ style }) => {
     await editProfile(body);
     navigate(articleList);
   };
-  const onReject = (data) => {
-    console.log(data);
+
+  const passwordsCompare = () => {
+    const { password, passwordRepeat } = getValues();
+    return password === passwordRepeat;
   };
+
+  const urlValidate = () => {
+    const { url } = getValues();
+    if (!url) return true;
+    try {
+      new URL(url);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  };
+
   return (
-    <form className={style.card} onSubmit={handleSubmit(onSubmit, onReject)}>
+    <form className={style.card} onSubmit={handleSubmit(onSubmit)}>
       <h2 className={style.mainlabel}>Edit Profile</h2>
       <div className={style.inputWrap}>
         <label className={style.inputLabel}>
@@ -105,19 +122,35 @@ const EditProfile = ({ style }) => {
         <label className={style.inputLabel}>
           Repeat Password{" "}
           <input
-            className={style.input}
+            {...register("passwordRepeat", {
+              required: true,
+              validate: passwordsCompare,
+            })}
+            className={[
+              style.input,
+              errors.passwordRepeat && style["input--invalid"],
+            ].join(" ")}
             type="password"
             placeholder="Password"
             autoComplete="off"
           />
+          {errors.passwordRepeat && (
+            <p className={style.errorMessage}>Passwords must match</p>
+          )}
         </label>
         <label className={style.inputLabel}>
           {"Avatar Image (url)"}
           <input
+            {...register("image", {
+              validate: urlValidate,
+            })}
             className={style.input}
             type="text"
             placeholder="Avatar Image"
           />
+          {errors.image && (
+            <p className={style.errorMessage}>Url must be valid</p>
+          )}
         </label>
         <button className={style.submitButton} type="submit">
           Save
@@ -125,6 +158,23 @@ const EditProfile = ({ style }) => {
       </div>
     </form>
   );
+};
+
+EditProfile.defaultProps = {
+  style: {
+    card: {},
+    mainlabel: {},
+    inputWrap: {},
+    inputLabel: {},
+    input: {},
+    "input--invalid": {},
+    errorMessage: {},
+    submitButton: {},
+  },
+};
+
+EditProfile.propTypes = {
+  style: PropTypes.object,
 };
 
 export default EditProfile;
