@@ -32,6 +32,7 @@ $highlight-color: #f5222d;
   background-color: $info-color;
   color: #fff;
   padding: 8px 10em;
+  align-self: flex-start;
 }
 .bgWrapper {
   background-color: $bg-color;
@@ -44,7 +45,7 @@ $highlight-color: #f5222d;
     padding: 3em 2em;
     box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
     .articleTitle {
-      font-family: "Roboto", sans-serif;
+      font-family: 'Roboto', sans-serif;
       text-align: center;
       font-size: 20px;
       font-style: normal;
@@ -56,7 +57,7 @@ $highlight-color: #f5222d;
       flex-direction: column;
       gap: 21px;
       .inputLabel {
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto', sans-serif;
         .input {
           font-size: 16px;
           font-style: normal;
@@ -88,7 +89,7 @@ $highlight-color: #f5222d;
         }
         .errorMessage {
           color: $highlight-color;
-          font-family: "Roboto", sans-serif;
+          font-family: 'Roboto', sans-serif;
           font-size: 14px;
           font-style: normal;
           font-weight: 400;

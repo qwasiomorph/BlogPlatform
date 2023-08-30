@@ -1,10 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import serviceSlice from "./serviceSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+import serviceSlice from './serviceSlice';
 
 const blogApi = createApi({
-  reducerPath: "blogApi",
+  reducerPath: 'blogApi',
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_API_URL }),
+  tagTypes: ['Articles', 'Article', 'User'],
   endpoints: (builder) => ({
     getArticles: builder.query({
       query: (page) => {
@@ -18,29 +20,41 @@ const blogApi = createApi({
           },
         };
       },
+      providesTags: (page) => [{ type: 'Articles', page }],
     }),
     getArticle: builder.query({
-      query: (slug) => `articles/${slug}`,
+      query: (slug) => {
+        let token = store.getState().service.authToken;
+        return {
+          url: `articles/${slug}`,
+          headers: {
+            Authorization: token && `Bearer ${token}`,
+          },
+        };
+      },
+      providesTags: (slug) => [{ type: 'Article', slug }],
     }),
     getCurrentUser: builder.query({
       query: () => ({
-        url: "user",
+        url: 'user',
         headers: {
           Authorization: `Bearer ${store.getState().service.authToken}`,
         },
       }),
+      providesTags: () => [{ type: 'User' }],
     }),
     newUser: builder.mutation({
       query: ({ username, email, password }) => ({
-        url: "users",
-        method: "POST",
+        url: 'users',
+        method: 'POST',
         body: { user: { username, email, password } },
       }),
+      invalidatesTags: ['User'],
     }),
     loginUser: builder.mutation({
       query: ({ email, password }) => ({
-        url: "users/login",
-        method: "POST",
+        url: 'users/login',
+        method: 'POST',
         body: {
           user: {
             email,
@@ -48,14 +62,15 @@ const blogApi = createApi({
           },
         },
       }),
+      invalidatesTags: ['User'],
     }),
     editProfile: builder.mutation({
       query: ({ username, email, image }) => ({
-        url: "user",
+        url: 'user',
         headers: {
           Authorization: `Bearer ${store.getState().service.authToken}`,
         },
-        method: "PUT",
+        method: 'PUT',
         body: {
           user: {
             username,
@@ -64,61 +79,66 @@ const blogApi = createApi({
           },
         },
       }),
+      invalidatesTags: ['User'],
     }),
     newArticle: builder.mutation({
       query: ({ title, description, body, tagList }) => ({
-        url: "articles",
-        method: "POST",
+        url: 'articles',
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${store.getState().service.authToken}`,
         },
         body: { article: { title, description, body, tagList } },
       }),
+      invalidatesTags: ['Articles'],
     }),
     editArticle: builder.mutation({
       query: ({ title, description, body, slug }) => ({
         url: `articles/${slug}`,
-        method: "PUT",
+        method: 'PUT',
         headers: {
           Authorization: `Bearer ${store.getState().service.authToken}`,
         },
         body: { article: { title, description, body } },
       }),
+      invalidatesTags: ['Articles', 'Article'],
     }),
     deleteArticle: builder.mutation({
       query: (slug) => ({
         url: `articles/${slug}`,
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${store.getState().service.authToken}`,
         },
       }),
+      invalidatesTags: ['Articles'],
     }),
     favoriteArticle: builder.mutation({
       query: (slug) => ({
         url: `articles/${slug}/favorite`,
-        method: "POST",
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${store.getState().service.authToken}`,
         },
       }),
+      invalidatesTags: ['Articles', 'Article'],
     }),
     unFavoriteArticle: builder.mutation({
       query: (slug) => ({
         url: `articles/${slug}/favorite`,
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${store.getState().service.authToken}`,
         },
       }),
+      invalidatesTags: ['Articles', 'Article'],
     }),
   }),
 });
 
 export const { setToken, setUserName } = serviceSlice.actions;
 
-export const useLazyArticleListQuery =
-  blogApi.endpoints.getArticles.useLazyQuery;
+export const useLazyArticleListQuery = blogApi.endpoints.getArticles.useLazyQuery;
 export const useArticleListQuery = blogApi.endpoints.getArticles.useQuery;
 export const useArticleQuery = blogApi.endpoints.getArticle.useQuery;
 export const useCurrentUserQuery = blogApi.endpoints.getCurrentUser.useQuery;
@@ -139,6 +159,5 @@ export const store = configureStore({
     service: serviceSlice.reducer,
     blogApi: blogApi.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(blogApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(blogApi.middleware),
 });

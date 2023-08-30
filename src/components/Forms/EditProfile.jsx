@@ -1,15 +1,13 @@
-import { useForm } from "react-hook-form";
-import {
-  getPasswordErrorText,
-  getUserNameErrorText,
-} from "../../utils/errorMessages";
-import { setToken, useEditProfileMutation } from "../../store/store";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import routes from "../../utils/routes";
-import { useEffect } from "react";
+import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import PropTypes from "prop-types";
+import { getPasswordErrorText, getUserNameErrorText } from '../../utils/errorMessages';
+import { setToken, useCurrentUserQuery, useEditProfileMutation } from '../../store/store';
+import routes from '../../utils/routes';
+import { selectToken } from '../../store/selectors';
 
 const EditProfile = ({ style }) => {
   const dispatch = useDispatch();
@@ -21,11 +19,12 @@ const EditProfile = ({ style }) => {
     formState: { errors },
     handleSubmit,
     getValues,
+    reset,
   } = useForm({ defaultValues: {} });
   useEffect(() => {
     if (data) {
       const token = data.user.token;
-      localStorage.setItem("authToken", token);
+      localStorage.setItem('authToken', token);
       dispatch(setToken(token));
     }
   }, [data]);
@@ -50,107 +49,92 @@ const EditProfile = ({ style }) => {
     }
   };
 
+  const token = useSelector(selectToken);
+  const { currentData } = useCurrentUserQuery(token);
+
+  useEffect(() => {
+    if (currentData) {
+      reset(currentData.user);
+    }
+  }, [currentData]);
+
   return (
     <form className={style.card} onSubmit={handleSubmit(onSubmit)}>
       <h2 className={style.mainlabel}>Edit Profile</h2>
       <div className={style.inputWrap}>
         <label className={style.inputLabel}>
-          Username{" "}
+          Username{' '}
           <input
-            {...register("username", {
+            {...register('username', {
               required: true,
               minLength: 3,
               maxLength: 20,
             })}
-            className={[
-              style.input,
-              errors.username && style["input--invalid"],
-            ].join(" ")}
+            className={[style.input, errors.username && style['input--invalid']].join(' ')}
             type="text"
             placeholder="Username"
           />
           {errors.username && (
             <p className={style.errorMessage}>
-              {`Your user name needs to be${getUserNameErrorText(
-                errors.username
-              )}.`}
+              {`Your user name needs to be${getUserNameErrorText(errors.username)}.`}
             </p>
           )}
         </label>
         <label className={style.inputLabel}>
-          Email address{" "}
+          Email address{' '}
           <input
-            {...register("email", {
+            {...register('email', {
               required: true,
               pattern: /(\w)*([@]+)(\w)+([.]{1})(\w)+/g,
             })}
-            className={[
-              style.input,
-              errors.email && style["input--invalid"],
-            ].join(" ")}
+            className={[style.input, errors.email && style['input--invalid']].join(' ')}
             type="text"
             placeholder="Email address"
           />
-          {errors.email && (
-            <p className={style.errorMessage}>Your Email needs to be valid</p>
-          )}
+          {errors.email && <p className={style.errorMessage}>Your Email needs to be valid</p>}
         </label>
         <label className={style.inputLabel}>
-          Password{" "}
+          Password{' '}
           <input
-            {...register("password", {
+            {...register('password', {
               required: true,
               minLength: 6,
               maxLength: 40,
             })}
-            className={[
-              style.input,
-              errors.password && style["input--invalid"],
-            ].join(" ")}
+            className={[style.input, errors.password && style['input--invalid']].join(' ')}
             type="password"
             placeholder="Password"
             autoComplete="off"
           />
           {errors.password && (
-            <p className={style.errorMessage}>
-              {`Your password needs to be${getPasswordErrorText(
-                errors.password
-              )}.`}
-            </p>
+            <p className={style.errorMessage}>{`Your password needs to be${getPasswordErrorText(errors.password)}.`}</p>
           )}
         </label>
         <label className={style.inputLabel}>
-          Repeat Password{" "}
+          Repeat Password{' '}
           <input
-            {...register("passwordRepeat", {
+            {...register('passwordRepeat', {
               required: true,
               validate: passwordsCompare,
             })}
-            className={[
-              style.input,
-              errors.passwordRepeat && style["input--invalid"],
-            ].join(" ")}
+            className={[style.input, errors.passwordRepeat && style['input--invalid']].join(' ')}
             type="password"
             placeholder="Password"
             autoComplete="off"
           />
-          {errors.passwordRepeat && (
-            <p className={style.errorMessage}>Passwords must match</p>
-          )}
+          {errors.passwordRepeat && <p className={style.errorMessage}>Passwords must match</p>}
         </label>
         <label className={style.inputLabel}>
-          {"Avatar Image (url)"}
+          {'Avatar Image (url)'}
           <input
-            {...register("image", {
+            {...register('image', {
               validate: urlValidate,
             })}
             className={style.input}
             type="text"
             placeholder="Avatar Image"
           />
-          {errors.image && (
-            <p className={style.errorMessage}>Url must be valid</p>
-          )}
+          {errors.image && <p className={style.errorMessage}>Url must be valid</p>}
         </label>
         <button className={style.submitButton} type="submit">
           Save
@@ -167,7 +151,7 @@ EditProfile.defaultProps = {
     inputWrap: {},
     inputLabel: {},
     input: {},
-    "input--invalid": {},
+    'input--invalid': {},
     errorMessage: {},
     submitButton: {},
   },

@@ -1,26 +1,24 @@
-import { useEffect, useState } from "react";
-import style from "./NewArticle.module.scss";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import routes from "../../utils/routes";
-import {
-  useEditArticleMutation,
-  useNewArticleMutation,
-} from "../../store/store";
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import PropTypes from "prop-types";
+import routes from '../../utils/routes';
+import { useEditArticleMutation, useNewArticleMutation } from '../../store/store';
+
+import style from './NewArticle.module.scss';
 
 const NewArticle = ({ data, slug }) => {
   const { articleList } = routes;
 
-  const isNewArticlePath = !data;
+  const isNewArticlePath = !data.article;
 
   const [tags, setTags] = useState([]);
 
   const [sendNew] = useNewArticleMutation();
   const [sendEdited] = useEditArticleMutation();
 
-  const [tagInputValue, setTagInputValue] = useState("");
+  const [tagInputValue, setTagInputValue] = useState('');
 
   const navigate = useNavigate();
 
@@ -48,7 +46,7 @@ const NewArticle = ({ data, slug }) => {
 
   const handleAddTag = () => {
     setTags([...tags, tagInputValue]);
-    setTagInputValue("");
+    setTagInputValue('');
   };
 
   const handleTagInputChange = (e) => {
@@ -62,20 +60,15 @@ const NewArticle = ({ data, slug }) => {
   return (
     <div className={style.bgWrapper}>
       <div className={style.mainWrapper}>
-        <h4 className={style.articleTitle}>
-          {isNewArticlePath ? "Create new article" : "Edit article"}
-        </h4>
+        <h4 className={style.articleTitle}>{isNewArticlePath ? 'Create new article' : 'Edit article'}</h4>
         <form className={style.articleForm} onSubmit={handleSubmit(onSubmit)}>
           <label className={style.inputLabel}>
             Title
             <input
-              {...register("title", {
+              {...register('title', {
                 required: true,
               })}
-              className={[
-                style.input,
-                errors.title && style["input--invalid"],
-              ].join(" ")}
+              className={[style.input, errors.title && style['input--invalid']].join(' ')}
               type="text"
               placeholder="Title"
             />
@@ -83,13 +76,10 @@ const NewArticle = ({ data, slug }) => {
           <label className={style.inputLabel}>
             Short description
             <input
-              {...register("description", {
+              {...register('description', {
                 required: true,
               })}
-              className={[
-                style.input,
-                errors.description && style["input--invalid"],
-              ].join(" ")}
+              className={[style.input, errors.description && style['input--invalid']].join(' ')}
               type="text"
               placeholder="Description"
             />
@@ -97,14 +87,10 @@ const NewArticle = ({ data, slug }) => {
           <label className={style.inputLabel}>
             Text
             <textarea
-              {...register("body", {
+              {...register('body', {
                 required: true,
               })}
-              className={[
-                style.input,
-                style.inputLarge,
-                errors.body && style["input--invalid"],
-              ].join(" ")}
+              className={[style.input, style.inputLarge, errors.body && style['input--invalid']].join(' ')}
               type="text"
               placeholder="Text"
             ></textarea>
@@ -113,18 +99,10 @@ const NewArticle = ({ data, slug }) => {
             <div className={style.tagInputWrapper}>
               Tags
               {tags.map((tag) => (
-                <label
-                  key={tag}
-                  className={[style.inputLabel, style.tagInputLabel].join(" ")}
-                >
-                  <input
-                    className={style.input}
-                    type="text"
-                    value={tag}
-                    disabled
-                  />
+                <label key={tag} className={[style.inputLabel, style.tagInputLabel].join(' ')}>
+                  <input className={style.input} type="text" value={tag} disabled />
                   <button
-                    className={[style.button, style.highLight].join(" ")}
+                    className={[style.button, style.highLight].join(' ')}
                     type="button"
                     onClick={handleDeleteTag}
                     name={tag}
@@ -133,9 +111,7 @@ const NewArticle = ({ data, slug }) => {
                   </button>
                 </label>
               ))}
-              <label
-                className={[style.inputLabel, style.tagInputLabel].join(" ")}
-              >
+              <label className={[style.inputLabel, style.tagInputLabel].join(' ')}>
                 <input
                   className={style.input}
                   value={tagInputValue}
@@ -143,20 +119,13 @@ const NewArticle = ({ data, slug }) => {
                   type="text"
                   placeholder="Tag"
                 />
-                <button
-                  className={style.button}
-                  type="button"
-                  onClick={handleAddTag}
-                >
+                <button className={style.button} type="button" onClick={handleAddTag}>
                   Add tag
                 </button>
               </label>
             </div>
           )}
-          <button
-            className={[style.button, style.submit].join(" ")}
-            type="submit"
-          >
+          <button className={[style.button, style.submit].join(' ')} type="submit">
             Send
           </button>
         </form>
@@ -167,7 +136,7 @@ const NewArticle = ({ data, slug }) => {
 
 NewArticle.defaultProps = {
   data: {},
-  slug: "",
+  slug: '',
 };
 
 NewArticle.propTypes = {

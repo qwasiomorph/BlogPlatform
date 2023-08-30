@@ -1,25 +1,15 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from 'react-router-dom';
 
-import style from "./App.module.scss";
-
-import ArticleList from "./components/ArticleList";
-import Menu from "./components/Menu";
-import Article from "./components/Article";
-import Login from "./components/Login";
-
-import routes from "./utils/routes";
-import NewArticle from "./components/NewArticle/NewArticle";
+import ArticleList from './components/ArticleList';
+import Menu from './components/Menu';
+import Article from './components/Article';
+import Login from './components/Login';
+import routes from './utils/routes';
+import NewArticle from './components/NewArticle/NewArticle';
+import style from './App.module.scss';
 
 function App() {
-  const {
-    articleList,
-    signIn,
-    signUp,
-    profileEdit,
-    newArticle,
-    article,
-    editArticle,
-  } = routes;
+  const { articleList, signIn, signUp, profileEdit, newArticle, article, editArticle } = routes;
   return (
     <div className={style.appWrap}>
       <Menu />

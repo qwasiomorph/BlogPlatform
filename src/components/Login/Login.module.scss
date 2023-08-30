@@ -16,7 +16,7 @@ $highlight-color: #f5222d;
     box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
     width: 320px;
     .mainlabel {
-      font-family: "Roboto", sans-serif;
+      font-family: 'Roboto', sans-serif;
       text-align: center;
       font-size: 20px;
       font-style: normal;
@@ -30,7 +30,7 @@ $highlight-color: #f5222d;
       align-items: stretch;
       gap: 0.75em;
       .inputLabel {
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto', sans-serif;
         .input {
           font-size: 16px;
           font-style: normal;
@@ -58,7 +58,7 @@ $highlight-color: #f5222d;
         }
         .errorMessage {
           color: $highlight-color;
-          font-family: "Roboto", sans-serif;
+          font-family: 'Roboto', sans-serif;
           font-size: 14px;
           font-style: normal;
           font-weight: 400;
@@ -81,19 +81,22 @@ $highlight-color: #f5222d;
           width: 0;
         }
         padding-bottom: 0.25em;
+        .checkbox--invalid {
+          color: $highlight-color;
+        }
       }
       .checkMark {
-        content: "";
+        content: '';
         display: block;
         width: 18px;
         height: 16px;
         border: 1px solid $blue;
         border-radius: 3px;
-        background: url("");
+        background: url('');
         margin-right: 5px;
       }
       .checkBox input:checked ~ .checkMark {
-        background: url("../../assets/check.svg");
+        background: url('../../assets/check.svg');
       }
       .submitButton {
         color: #fff;
@@ -115,7 +118,7 @@ $highlight-color: #f5222d;
         color: $grey-7;
         text-align: center;
         /* Regular / 12px | 20 px */
-        font-family: "Roboto" sans-serif;
+        font-family: 'Roboto' sans-serif;
         font-size: 12px;
         font-style: normal;
         font-weight: 400;

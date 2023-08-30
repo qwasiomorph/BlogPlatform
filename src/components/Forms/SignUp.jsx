@@ -1,15 +1,12 @@
-import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  getPasswordErrorText,
-  getUserNameErrorText,
-} from "../../utils/errorMessages";
-import { setToken, useNewUserMutation } from "../../store/store";
-import { useEffect } from "react";
-import routes from "../../utils/routes";
-import { useDispatch } from "react-redux";
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 
-import PropTypes from "prop-types";
+import { getPasswordErrorText, getUserNameErrorText } from '../../utils/errorMessages';
+import { setToken, useNewUserMutation } from '../../store/store';
+import routes from '../../utils/routes';
 
 const SignUp = ({ style }) => {
   const dispatch = useDispatch();
@@ -19,7 +16,7 @@ const SignUp = ({ style }) => {
   useEffect(() => {
     if (data) {
       const token = data.user.token;
-      localStorage.setItem("authToken", token);
+      localStorage.setItem('authToken', token);
       dispatch(setToken(token));
     }
   }, [data]);
@@ -44,98 +41,80 @@ const SignUp = ({ style }) => {
       <h2 className={style.mainlabel}>Create new account</h2>
       <div className={style.inputWrap}>
         <label className={style.inputLabel}>
-          Username{" "}
+          Username{' '}
           <input
-            {...register("username", {
+            {...register('username', {
               required: true,
               minLength: 3,
               maxLength: 20,
             })}
-            className={[
-              style.input,
-              errors.username && style["input--invalid"],
-            ].join(" ")}
+            className={[style.input, errors.username && style['input--invalid']].join(' ')}
             type="text"
             placeholder="Username"
           />
           {errors.username && (
             <p className={style.errorMessage}>
-              {`Your user name needs to be${getUserNameErrorText(
-                errors.username
-              )}.`}
+              {`Your user name needs to be${getUserNameErrorText(errors.username)}.`}
             </p>
           )}
         </label>
         <label className={style.inputLabel}>
-          Email address{" "}
+          Email address{' '}
           <input
-            {...register("email", {
+            {...register('email', {
               required: true,
               pattern: /(\w)*([@]+)(\w)+([.]{1})(\w)+/g,
             })}
-            className={[
-              style.input,
-              errors.email && style["input--invalid"],
-            ].join(" ")}
+            className={[style.input, errors.email && style['input--invalid']].join(' ')}
             type="text"
             placeholder="Email address"
           />
-          {errors.email && (
-            <p className={style.errorMessage}>Your Email needs to be valid</p>
-          )}
+          {errors.email && <p className={style.errorMessage}>Your Email needs to be valid</p>}
         </label>
         <label className={style.inputLabel}>
-          Password{" "}
+          Password{' '}
           <input
-            {...register("password", {
+            {...register('password', {
               required: true,
               minLength: 6,
               maxLength: 40,
             })}
-            className={[
-              style.input,
-              errors.password && style["input--invalid"],
-            ].join(" ")}
+            className={[style.input, errors.password && style['input--invalid']].join(' ')}
             type="password"
             placeholder="Password"
             autoComplete="off"
           />
           {errors.password && (
-            <p className={style.errorMessage}>
-              {`Your password needs to be${getPasswordErrorText(
-                errors.password
-              )}.`}
-            </p>
+            <p className={style.errorMessage}>{`Your password needs to be${getPasswordErrorText(errors.password)}.`}</p>
           )}
         </label>
         <label className={style.inputLabel}>
-          Repeat Password{" "}
+          Repeat Password{' '}
           <input
-            {...register("passwordRepeat", {
+            {...register('passwordRepeat', {
               required: true,
               validate: passwordsCompare,
             })}
-            className={[
-              style.input,
-              errors.passwordRepeat && style["input--invalid"],
-            ].join(" ")}
+            className={[style.input, errors.passwordRepeat && style['input--invalid']].join(' ')}
             type="password"
             placeholder="Password"
             autoComplete="off"
           />
-          {errors.passwordRepeat && (
-            <p className={style.errorMessage}>Passwords must match</p>
-          )}
+          {errors.passwordRepeat && <p className={style.errorMessage}>Passwords must match</p>}
         </label>
         <label className={style.checkBox}>
           <input
-            {...register("checkbox")}
+            {...register('checkbox', {
+              required: true,
+            })}
             className={style.input}
             type="checkbox"
             placeholder="Password"
           />
-          <span className={style.checkMark}></span>I agree to the processing of
-          my personal information{" "}
+          <span className={style.checkMark}></span>
+          <span className={errors.checkbox && style['checkbox--invalid']}>
+            I agree to the processing of my personal information
+          </span>
         </label>
         <button className={style.submitButton} type="submit">
           Create
@@ -155,7 +134,7 @@ SignUp.defaultProps = {
     inputWrap: {},
     inputLabel: {},
     input: {},
-    "input--invalid": {},
+    'input--invalid': {},
     errorMessage: {},
     submitButton: {},
   },

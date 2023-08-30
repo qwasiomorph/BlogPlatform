@@ -1,12 +1,11 @@
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import PropTypes from 'prop-types';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { Link, useNavigate } from "react-router-dom";
-import { setToken, useLoginUserMutation } from "../../store/store";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import routes from "../../utils/routes";
-
-import PropTypes from "prop-types";
+import { setToken, useLoginUserMutation } from '../../store/store';
+import routes from '../../utils/routes';
 
 const SignIn = ({ style }) => {
   const [login, { data }] = useLoginUserMutation();
@@ -16,7 +15,7 @@ const SignIn = ({ style }) => {
   useEffect(() => {
     if (data) {
       const token = data.user.token;
-      localStorage.setItem("authToken", token);
+      localStorage.setItem('authToken', token);
       dispatch(setToken(token));
     }
   }, [data]);
@@ -27,8 +26,16 @@ const SignIn = ({ style }) => {
     handleSubmit,
   } = useForm({ defaultValues: {} });
 
+  const [isServerError, setServerError] = useState(false);
+
   const onSubmit = async (body) => {
-    await login(body);
+    const res = await login(body);
+
+    if (res.error) {
+      setServerError(true);
+      return;
+    }
+    setServerError(false);
     navigate(articleList);
   };
 
@@ -37,33 +44,25 @@ const SignIn = ({ style }) => {
       <h2 className={style.mainlabel}>Sign In</h2>
       <div className={style.inputWrap}>
         <label className={style.inputLabel}>
-          Email address{" "}
+          Email address{' '}
           <input
-            {...register("email", {
+            {...register('email', {
               required: true,
               pattern: /(\w)*([@]+)(\w)+([.]{1})(\w)+/g,
             })}
-            className={[
-              style.input,
-              errors.email && style["input--invalid"],
-            ].join(" ")}
+            className={[style.input, (errors.email || isServerError) && style['input--invalid']].join(' ')}
             type="text"
             placeholder="Email address"
           />
-          {errors.email && (
-            <p className={style.errorMessage}>Your Email needs to be valid</p>
-          )}
+          {(errors.email || isServerError) && <p className={style.errorMessage}>Your Email needs to be valid</p>}
         </label>
         <label className={style.inputLabel}>
-          Password{" "}
+          Password{' '}
           <input
-            {...register("password", {
+            {...register('password', {
               required: true,
             })}
-            className={[
-              style.input,
-              errors.password && style["input--invalid"],
-            ].join(" ")}
+            className={[style.input, (errors.password || isServerError) && style['input--invalid']].join(' ')}
             type="password"
             placeholder="Password"
             autoComplete="off"
@@ -89,7 +88,7 @@ SignIn.defaultProps = {
     inputWrap: {},
     inputLabel: {},
     input: {},
-    "input--invalid": {},
+    'input--invalid': {},
     errorMessage: {},
     submitButton: {},
   },

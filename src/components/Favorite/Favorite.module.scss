@@ -1,0 +1,16 @@
+.favourites {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  .favouritesIcon {
+    margin-right: 5px;
+    width: 16px;
+    height: 16px;
+    background: url('/src/assets/like.svg');
+    background-size: cover;
+    cursor: pointer;
+  }
+  .favouritesIcon--filled {
+    background: url('/src/assets/likeFilled.svg') center center no-repeat;
+  }
+}

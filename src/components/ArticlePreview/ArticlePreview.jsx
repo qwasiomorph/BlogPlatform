@@ -1,53 +1,23 @@
-import { Link } from "react-router-dom";
-import parseDate from "../../utils/parseDate";
-import style from "./ArticlePreview.module.scss";
-import { useState } from "react";
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import PropTypes from "prop-types";
+import Favorite from '../Favorite';
+import parseDate from '../../utils/parseDate';
 
-const ArticlePreview = ({ info, toggleFavorite }) => {
-  const {
-    slug,
-    title,
-    author,
-    description,
-    favoritesCount,
-    tagList,
-    createdAt,
-    favorited,
-  } = info;
+import style from './ArticlePreview.module.scss';
 
-  const [favoritedClientView, setFavorited] = useState(favorited);
-  const [favoriteCountClientView, setFavoriteCount] = useState(favoritesCount);
-
-  const handleFavorite = () => {
-    toggleFavorite(favoritedClientView, slug);
-    setFavorited(!favoritedClientView);
-    if (favoritedClientView) {
-      setFavoriteCount(favoriteCountClientView - 1);
-    } else {
-      setFavoriteCount(favoriteCountClientView + 1);
-    }
-  };
+const ArticlePreview = ({ info }) => {
+  const { slug, title, author, description, favoritesCount, tagList, createdAt, favorited } = info;
 
   return (
     <div className={style.card}>
       <div className={style.header}>
         <div>
           <div>
-            <Link to={`${slug}`} style={{ textDecoration: "none" }}>
+            <Link to={`${slug}`} style={{ textDecoration: 'none' }}>
               <h4 className={style.articleTitle}>{title}</h4>
             </Link>
-            <div className={style.favourites}>
-              <div
-                onClick={handleFavorite}
-                className={[
-                  style.favouritesIcon,
-                  favoritedClientView && style["favouritesIcon--filled"],
-                ].join(" ")}
-              ></div>
-              {favoriteCountClientView}
-            </div>
+            <Favorite favorited={favorited} favoritesCount={favoritesCount} slug={slug} />
           </div>
 
           <div className={style.tagList}>
@@ -77,13 +47,13 @@ const ArticlePreview = ({ info, toggleFavorite }) => {
 
 ArticlePreview.defaultProps = {
   info: {
-    slug: "",
-    title: "",
-    author: "",
-    description: "",
+    slug: '',
+    title: '',
+    author: '',
+    description: '',
     favoritesCount: 0,
     tagList: [],
-    createdAt: "",
+    createdAt: '',
     favorited: false,
   },
   toggleFavorite: () => {},

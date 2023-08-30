@@ -1,13 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const serviceSlice = createSlice({
-  name: "service",
+  name: 'service',
   initialState: {
-    userName: "",
-
-    authToken: localStorage.getItem("authToken")
-      ? localStorage.getItem("authToken")
-      : "",
+    userName: '',
+    authToken: localStorage.getItem('authToken') ? localStorage.getItem('authToken') : '',
   },
   reducers: {
     setToken: (state, action) => {
