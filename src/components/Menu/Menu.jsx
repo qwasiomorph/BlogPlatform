@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 
 import { setToken, setUserName, useCurrentUserQuery } from '../../store/store';
 import { selectToken } from '../../store/selectors';
+import user from '../../assets/user.svg';
 
 import style from './Menu.module.scss';
 
@@ -50,7 +51,7 @@ const Menu = () => {
             <h6 className={style.blogLabel} name="profile">
               {currentData.user.username}
             </h6>
-            <img src={currentData.user.image || '/assets/user.svg'} alt="Avatar" width={36} height={36} />
+            <img src={currentData.user.image || user} alt="Avatar" width={36} height={36} />
           </Link>
           <button onClick={handleLogOut} className={style.button} type="button" name="sign-up">
             Log Out
