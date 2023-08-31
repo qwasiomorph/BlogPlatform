@@ -30,6 +30,7 @@ const Menu = () => {
     localStorage.removeItem('authToken');
     dispatch(setToken(''));
     dispatch(setUserName(''));
+    navigate('/', { replace: true });
   };
 
   return (

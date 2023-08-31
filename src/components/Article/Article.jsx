@@ -12,12 +12,11 @@ const Article = () => {
   const { editArticle } = routes;
   const { slug } = useParams();
   const { pathname } = useResolvedPath();
-
+  let isAuthor = false;
   const isEditing = pathname.includes(editArticle);
 
   const { data } = useArticleQuery(slug);
   const userName = useSelector(selectUserName);
-  let isAuthor = false;
 
   let html = '';
   if (data) {
@@ -26,7 +25,7 @@ const Article = () => {
     isAuthor = userName === data.article.author.username;
   }
 
-  if (data && isEditing) {
+  if (data && isEditing && isAuthor) {
     return <NewArticle data={data} slug={slug} />;
   }
 
